@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package analytics;
+
+option go_package = "analytics-service/proto;proto";
+
+service Analytics {
+  rpc LogVisit (VisitRequest) returns (VisitResponse);
+}
+
+message VisitRequest {
+  string shortcode = 1;
+  string url = 2;
+  string ip = 3;
+  string user_agent = 4;
+  int64 timestamp = 5;
+}
+
+message VisitResponse {
+  string status = 1;
+}
