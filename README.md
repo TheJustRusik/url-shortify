@@ -24,4 +24,19 @@ Swagger первого микросервиса (http://localhost:8080/swagger/)
 Аналитика второго микросервиса:
 http://localhost:8081/stats/Ee2m6X -> покажет json в котором видно кто, когда, откуда, куда перешёл
 
-### Удачного использования!
+# Демо
+## Создать ссылку:
+```sh
+curl -X 'POST' \
+  'https://url-short.kenuki.dev/shorten' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "url": "https://github.com/TheJustRusik/url-shortify/blob/main/shortener-service/cmd/main.go"
+}'
+```
+В ответ получите 6 символов
+## Перейти по ссылке:
+https://url-short.kenuki.dev/f65CAt просто в браузере заходите сюда
+## Аналитика
+https://url-short.kenuki.dev/stats/f65CAt тоже открываем в браузере
