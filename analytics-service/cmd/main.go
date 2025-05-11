@@ -4,6 +4,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 
 	"analytics-service/internal/grpcserver"
 	"analytics-service/internal/handler"
@@ -15,7 +16,15 @@ import (
 )
 
 func main() {
-	store, err := storage.NewStorage("postgres://user:password@localhost:5432/dbname?sslmode=disable")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	if dbHost == "" {
+		dbHost = "localhost"
+	}
+	if dbPort == "" {
+		dbPort = "5432"
+	}
+	store, err := storage.NewStorage("postgres://user:password@" + dbHost + ":" + dbPort + "/dbname?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}

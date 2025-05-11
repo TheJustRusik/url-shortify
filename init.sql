@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS short_urls
 CREATE TABLE visits
 (
     id         SERIAL PRIMARY KEY,
-    short_url  TEXT NOT NULL,
-    ip         TEXT,
+    shortcode  VARCHAR(20) NOT NULL,
+    ip         VARCHAR(100),
     user_agent TEXT,
-    referer    TEXT,
-    timestamp  TIMESTAMP
+    visited_at TIMESTAMP
 );
+

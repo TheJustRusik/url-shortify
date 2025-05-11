@@ -35,6 +35,6 @@ func (s *Storage) SaveURL(code, original string) error {
 
 func (s *Storage) GetOriginal(code string) (string, error) {
 	var url string
-	err := s.DB.Get(url, `SELECT original_url FROM short_urls WHERE shortcode = $1`, code)
+	err := s.DB.Get(&url, `SELECT original_url FROM short_urls WHERE shortcode = $1`, code)
 	return url, err
 }

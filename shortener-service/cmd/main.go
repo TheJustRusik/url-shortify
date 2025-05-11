@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"shortener-service/internal/grpcclient"
 
 	"shortener-service/internal/handler"
 	"shortener-service/internal/storage"
@@ -22,18 +23,30 @@ import (
 func main() {
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
+	analyticServiceHost := os.Getenv("ANALYTIC_HOST")
 	if dbHost == "" {
 		dbHost = "localhost"
 	}
 	if dbPort == "" {
 		dbPort = "5432"
 	}
+	if analyticServiceHost == "" {
+		analyticServiceHost = "localhost"
+	}
 	store, err := storage.NewStorage("postgres://user:password@" + dbHost + ":" + dbPort + "/dbname?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	h := &handler.Handler{Storage: store}
+	client, err := grpcclient.NewAnalyticsClient(analyticServiceHost + ":50051") // имя контейнера, если через Docker
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	h := &handler.Handler{
+		Storage:         store,
+		AnalyticsClient: client,
+	}
 	r := mux.NewRouter()
 
 	r.HandleFunc("/shorten", h.Shorten).Methods("POST")

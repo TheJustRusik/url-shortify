@@ -19,3 +19,12 @@ services:
       - "5432:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  analytics:
+    build: analytics-service
+    ports:
+      - "8083:8081"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432

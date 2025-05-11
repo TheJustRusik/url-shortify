@@ -3,7 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
-
+	"shortener-service/internal/grpcclient"
 	"shortener-service/internal/service"
 	"shortener-service/internal/storage"
 
@@ -11,7 +11,8 @@ import (
 )
 
 type Handler struct {
-	Storage *storage.Storage
+	Storage         *storage.Storage
+	AnalyticsClient *grpcclient.AnalyticsClient
 }
 
 type shortenRequest struct {
@@ -63,5 +64,7 @@ func (h *Handler) Expand(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Not found", http.StatusNotFound)
 		return
 	}
+	// после получения URL
+	go h.AnalyticsClient.SendVisit(code, r.RemoteAddr, r.UserAgent(), url)
 	http.Redirect(w, r, url, http.StatusFound)
 }
