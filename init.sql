@@ -11,6 +11,7 @@ CREATE TABLE visits
     id         SERIAL PRIMARY KEY,
     shortcode  VARCHAR(20) NOT NULL,
     ip         VARCHAR(100),
+    url        TEXT,
     user_agent TEXT,
     visited_at TIMESTAMP
 );

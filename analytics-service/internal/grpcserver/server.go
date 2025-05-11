@@ -16,6 +16,7 @@ func (s *Server) LogVisit(ctx context.Context, req *proto.VisitRequest) (*proto.
 	v := storage.Visit{
 		Shortcode: req.Shortcode,
 		IP:        req.Ip,
+		URL:       req.Url,
 		UserAgent: req.UserAgent,
 		VisitedAt: time.Unix(req.Timestamp, 0),
 	}
